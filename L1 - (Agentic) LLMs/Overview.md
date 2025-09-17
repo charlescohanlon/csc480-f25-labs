@@ -1,12 +1,12 @@
-# Cal Poly SLO CSC 480-F24 Artificial Intelligence
+# Cal Poly SLO CSC 480-F25 Artificial Intelligence
 
 **Prof. Franz J. Kurfess, Charles O'Hanlon**
 
-# Lab 1: Text-based Generative AI
+# Lab 1: (Agentic) LLMs
 
 > This lab has two parts. **Part 1** covers text-based generative AI tools. **Part 2** is a short, hands-on “hello world” with **LLMs as agents** using **AutoGen**.
 
-## Part 1 — Text-based Generative AI
+## Part 1 - Text-based Generative AI
 
 ### Overview
 
@@ -22,11 +22,14 @@ In this lab activity, you will explore and critically examine some of the most p
 
 #### Popular Generative AI Tools
 
-* **ChatGPT:** A large language model based on GPT-3 from OpenAI that is trained on a massive dataset of text and code, and can generate text, translate languages, and answer your questions in an informative way. GPT-3 is available through the OpenAI API and has been used in various applications.
-* **Google Gemini:** A generative model developed by Google. It is designed to generate human-like text and can be used for a variety of natural language generation tasks. It is accessible through Google's AI tools and APIs.
-* **Perplexity.AI:** A conversational search engine that answers queries using natural language predictive text, utilizing sources from the web.
-* **Google's BERT** is an influential model used for natural language understanding. It's widely used for tasks like sentiment analysis and language translation.
-* **Hugging Face Transformers:** A repository of pre-trained transformer models, including GPT-2, BERT, and more. These models can be fine-tuned for specific tasks and are easily accessible through their Transformers library.
+| Chatbot | LLM Used | Market Share (%) | Comments/Uses |
+|---------|----------|------------------|---------------|
+| ChatGPT | GPT-4o, GPT-3.5/4/5 | 60.6 | General-purpose, largest user base, rapid integration |
+| Microsoft Copilot | GPT-4 | 14.1 | Assistant in Windows, Office, and enterprise tools |
+| Google Gemini | Gemini | 13.4 | Native to Google Search, Workspace, and Android |
+| Perplexity | Mistral 7B, Llama 2 | 6.5 | Focused on accuracy and search |
+| Claude AI | Claude 3 | 3.5 | Business-focused, fast-growing segment |
+| Grok | Grok 2/3/5 | 0.8 | Platform-specific, fast conversational search |
 
 This list is not comprehensive, and more tools and applications based on them become available on an ongoing basis. For this lab, you are free to select any such tool or model that interacts with a user through a text-based interface.
 
@@ -71,7 +74,7 @@ What potential or actual problems to you see with your selected tool? Did you en
 The deliverable consists of
 
 * answering the **Lab 1 Questionnaire** about the selected tools
-* Completing the **CSC 480-F24 Lab 1: Jupyter Basics and Python Refresher**
+* Completing the **CSC 480-F25 Lab 1: Jupyter Basics and Python Refresher**
 
 The deadline for this assignment is the end of the day (midnight) as listed on Canvas. In general, labs are due on Thursday the week after they were published.
 
@@ -93,7 +96,7 @@ I’m planning to use the following scheme for the grading of this assignment. H
 
 ---
 
-## Part 2 — LLMs as Agents (AutoGen “Simple Agent”)
+## Part 2 - LLMs as Agents (AutoGen “Simple Agent”)
 
 ### Brief introduction: LLMs as agents
 
