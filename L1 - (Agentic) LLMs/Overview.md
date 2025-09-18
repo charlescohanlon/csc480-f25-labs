@@ -95,8 +95,7 @@ I’m planning to use the following scheme for the grading of part 1 of this ass
 | Creativity                 | Did the tool present the information in a novel, original way, or did it appear to reproduce existing content in a bland manner?                        |    10   |
 | Advantages                 | What advantages of generative AI tools do you see? How were they evident in this particular tool?                                                       |    20   |
 | Problems                   | What problems do you see with generative AI tools? How were they evident in this particular tool?                                                       |    20   |
-| Programming Exercise 1     | Simple array calculations.                                                                                                                              |    10   |
-| Programming Exercise 2     | Using the numPy library.                                                                                                                                |    10   |
+| AutoGen Setup and Test     | Successfully setting up and running the AutoGen framework with a simple agent configuration.                                                           |    20   |
 
 ---
 
