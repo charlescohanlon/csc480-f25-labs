@@ -59,6 +59,10 @@ Was the information provided factually correct? Did the tool hallucinate, make u
 
 Did the tool present the information in a novel, original way, or did it appear to reproduce existing content in a bland manner? Was the content or presentation surprising to you? See Koivisto, M., and Grassini, S. (2023) below for a recent examination.
 
+#### Explanations
+
+What standards (clarity, completeness, correctness, coherence, audience appropriateness) did you apply to explanations given? Indicate whether you used any measurable criteria (e.g., number of factual claims verified, citation presence, comparison to a rubric) and how those influenced your judgment.
+
 #### Advantages
 
 Based on your experiences, what advantages did you see? How were they evident in this particular tool? Are there actual or potential applications where you would consider using it?
@@ -82,7 +86,7 @@ The deadline for this assignment is the end of the day (midnight) as listed on C
 
 ### Grading Criteria
 
-I’m planning to use the following scheme for the grading of this assignment. However, I reserve the right to modify it, after consultation with the students in the class.
+I’m planning to use the following scheme for the grading of part 1 of this assignment. However, I reserve the right to modify it, after consultation with the students in the class.
 
 | Aspect                     | Explanation                                                                                                                                             | Percent |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----: |
@@ -138,23 +142,21 @@ Typical patterns you may use in your project:
 ### What you’ll do in part 2 of this lab
 
 1. **Install core packages**
-   `autogen-core`, `autogen-agentchat`, `autogen-ext[openai]`, and `openai` (plus `python-dotenv` if you want to load a `.env` file).
+   `autogen-core`, `autogen-agentchat`, `autogen-ext[openai,azure]`.
 
-2. **Set your OpenAI API key**
-   Either export `OPENAI_API_KEY` as an environment variable, or uncomment the placeholder in the notebook to set it directly. (`dotenv` is optional: create a `.env` file and call `load_dotenv()`.)
-
+2. **Use the Azure OpenAI key setup for the lab**
+   
 3. **Note on asyncio**
-   AutoGen uses Python **asyncio**; you’ll run an `async` function that spins up the agent and awaits an interactive chat loop.
+   AutoGen uses Python **asyncio**; you’ll run an `async` function that spins up the agent.
 
 4. **Run the simple agent**
-   The notebook creates an `OpenAIChatCompletionClient`, instantiates an `AssistantAgent` (e.g., name: `"SimpleAgent"` with a brief `system_message`), and starts an interactive console with a seed task such as **“Hello world.”**
+   The notebook executes one completion of the gpt-5-mini assistant agent.
 
-### Mini-exercises (exactly what to try)
+### Exercises
 
-* **Run the final cell** to start the console chat (`await setup_simple_chat()` in the notebook). Say hi and ask a couple of questions.
+* **Run the final cell** to start the console chat (`await setup_simple_chat()` in the notebook).
 * **Edit the system message** (e.g., change tone or add a constraint) and re-run to see the effect.
-* **Change the seed task** (replace “Hello world” with a question you choose) and observe the first response.
-* *(Optional)* **Swap models or settings** in the client to compare behavior.
+* **Change the seed task** and observe the response.
 
 > **Learning outcome:** understand the smallest working example of an **LLM-as-agent** in AutoGen: configure client → create `AssistantAgent` → start an interactive chat loop. This sets up later labs where you’ll add tools and multi-agent coordination.
 
@@ -162,17 +164,17 @@ Typical patterns you may use in your project:
 
 ### Acknowledgments
 
-This document was created with the assistance of two generative AI tools, Google Bard and ChatGPT. Below are the disclosure statements suggested by the respective tool.
+This document was created with the assistance of two generative AI tools, Google Gemini and ChatGPT. Below are the disclosure statements suggested by the respective tool.
 
-#### Google Bard
+#### Google Gemini
 
-**Disclosure:** Some of the content in this lab activity was generated using a large language model (LLM) called Google Bard or ChatGPT. LLMs are machine learning models that can generate text, translate languages, write different kinds of creative content, and answer your questions in an informative way.
+**Disclosure:** Some of the content in this lab activity was generated using a large language model (LLM) called Google Gemini or ChatGPT. LLMs are machine learning models that can generate text, translate languages, write different kinds of creative content, and answer your questions in an informative way.
 
 #### ChatGPT
 
 **Disclosure Statement: Use of AI Models in Lab Activities**
 
-In this lab activity, we employ artificial intelligence (AI) models, specifically ChatGPT and Google Bard, to enhance the learning experience and explore AI applications. It is essential to understand the role and implications of these AI tools in our activities.
+In this lab activity, we employ artificial intelligence (AI) models, specifically ChatGPT and Google Gemini, to enhance the learning experience and explore AI applications. It is essential to understand the role and implications of these AI tools in our activities.
 
 **ChatGPT:**
 ChatGPT is a language model developed by OpenAI. It is designed to generate human-like text based on the input it receives.
@@ -181,15 +183,15 @@ Please note that ChatGPT's responses are generated algorithmically and may not a
 
 We use ChatGPT to facilitate text-based interactions and generate responses to questions or prompts.
 
-**Google Bard:**
-Google Bard is a generative AI tool developed by Google. It is used for creative text generation and storytelling.
+**Google Gemini:**
+Google Gemini is a generative AI tool developed by Google. It is used for creative text generation and storytelling.
 
-Similar to ChatGPT, Google Bard's responses are generated algorithmically and should be assessed for accuracy and appropriateness.
+Similar to ChatGPT, Google Gemini's responses are generated algorithmically and should be assessed for accuracy and appropriateness.
 
-We utilize Google Bard to encourage creative exploration and generate imaginative content in our lab activities.
+We utilize Google Gemini to encourage creative exploration and generate imaginative content in our lab activities.
 
 **Ethical Considerations:**
-AI models like ChatGPT and Google Bard have the potential to generate content that may include biased or inappropriate information. It is essential to exercise responsible use of these tools.
+AI models like ChatGPT and Google Gemini have the potential to generate content that may include biased or inappropriate information. It is essential to exercise responsible use of these tools.
 
 Students are encouraged to consider ethical implications, potential biases, and reliability when using the AI-generated content in their lab work.
 
@@ -199,7 +201,7 @@ In cases where AI-generated content may impact sensitive or critical topics, it 
 We welcome your feedback regarding the use of AI models in our lab activities. If you encounter any concerns related to the generated content or believe that it violates ethical guidelines, please report it to the instructor.
 
 **Conclusion:**
-By acknowledging the use of ChatGPT and Google Bard and understanding the ethical considerations associated with these AI tools, we aim to foster responsible and informed use of AI technology in our educational activities. These tools are employed to enhance creativity and exploration but should be used thoughtfully and in alignment with ethical principles.
+By acknowledging the use of ChatGPT and Google Gemini and understanding the ethical considerations associated with these AI tools, we aim to foster responsible and informed use of AI technology in our educational activities. These tools are employed to enhance creativity and exploration but should be used thoughtfully and in alignment with ethical principles.
 
 If you have any questions or require further clarification regarding the use of AI models in this lab, please feel free to reach out to the instructor or teaching assistant.
 
