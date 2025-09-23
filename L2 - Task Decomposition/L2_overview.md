@@ -8,32 +8,17 @@ In this lab, you’ll practice breaking down a complex problem into smaller task
 
 Designing effective agentic systems starts with a good task decomposition, a clear mapping from tasks to agent roles, and a coordination style (design pattern) that fits the workflow. Communication protocols then provide the rules and message formats that let agents exchange information reliably and securely.
 
-You’ll apply these ideas to your team’s term project and complete a small, hands‑on exercise with three agents using AutoGen. For API usage examples, see: https://microsoft.github.io/autogen/0.2/docs/Use-Cases/agent_chat
-
-## Learning objectives
-
 By the end of this lab, you will be able to:
 
 - Decompose a complex problem into a comprehensive set of constituent tasks.
 - Identify and define the roles, responsibilities, and abilities of individual agents.
 - Select and justify an appropriate multi‑agent design pattern (Manager‑Worker, Sequential Pipeline, Collaborative Team).
 - Explain and apply foundational agent communication protocols at a high level (MCP, A2A), and relate them to representative, real‑world standards.
-- Document the initial architecture of your project (agents, tasks, design pattern, and interaction protocols) and sketch an interaction diagram.
+- Start thinking about the architecture of your project (agents, tasks, design pattern, and interaction protocols)
 
 ---
 
-## Concepts and principles
-
-- Task decomposition: Divide a large problem into smaller, testable sub‑tasks with clear inputs/outputs and success criteria.
-- Agent specialization: Assign roles (e.g., Planner, Coder, Reviewer) to align with sub‑tasks and required tools/skills.
-- Multi‑agent design patterns:
-  - Manager‑Worker (Orchestrator). A central agent delegates sub‑tasks and integrates results.
-  - Sequential Pipeline. Agents are arranged linearly; output of one becomes input to the next.
-  - Collaborative Team (Round Table). Peer agents collaborate without a single orchestrator.
-
----
-
-## Communication protocols (high‑level overview)
+## Communication protocols
 
 Below are four protocol families commonly discussed when building multi‑agent systems.
 
@@ -46,7 +31,7 @@ Below are four protocol families commonly discussed when building multi‑agent 
 - Why it matters: Enables specialization and collaboration (e.g., Planner ↔ Solver ↔ Critic) with well‑defined message turns and termination criteria.
 
 3) [Agent Communication Protocol](https://agentcommunicationprotocol.dev/introduction/welcome) (ACP, now apart of A2A under the Linux Foundation)
-- What it is: A general umbrella for message schemas and performatives used by agents over standard transports (often REST/HTTP). In practice, modern systems borrow concepts from established agent communication languages.
+- What it is: A general umbrella for message schemas and performatives used by agents over standard transports (often REST/HTTP)
 - Why it matters: Clear message intent (request, inform, propose) and structured, serializable payloads make it easy to integrate agents across services.
 
 4) [Agent‑User Interaction](https://docs.ag-ui.com/introduction) (AG‑UI)
@@ -57,7 +42,7 @@ Below are four protocol families commonly discussed when building multi‑agent 
 
 ## Lab activities
 
-This is a (potentially team‑based) activity that develops skills relevant to your final project. The main exercise is required, with an optional exploration section.
+### Designing a simple agentic system for this lab
 
 1) Problem & task decomposition
 	- State the main problem your multi‑agent system will solve.
@@ -67,45 +52,45 @@ This is a (potentially team‑based) activity that develops skills relevant to y
 	- Identify your primary agents.
 	- For each, define role, responsibilities, inputs/outputs, and success criteria.
 
-3) Design pattern selection (required)
+3) Design pattern selection
 	- Choose Manager‑Worker, Sequential Pipeline, or Collaborative Team.
 	- Justify why this pattern fits your workflow and constraints.
 
-4) Communication design (required)
-	- MCP: Describe the shared context and tools all agents need (schemas, access rules).
-	- A2A: Specify at least two essential agent‑to‑agent interactions (sender, receiver, purpose, key fields).
+4) Communication design
+	- MCP: Describe the shared context and tools all agents need (schemas, access rules, at a high-level).
+	- A2A: Specify at least two essential agent‑to‑agent interactions (sender, receiver, purpose, key fields, again at a high-level).
 
 5) Interaction mapping
 	- Create a diagram (flowchart/sequence diagram) showing agents, your chosen pattern, and MCP/A2A interactions.
 
-6) Optional exploration
+6) Further exploration (optional)
 	- Briefly discuss how ACP or AG‑UI could benefit your system and what you would adopt (e.g., DIDComm for secure messaging, Realtime API for UI streaming).
 
 ---
 
-## Exercise: a simple three‑agent system (AutoGen)
+## Exercise: create a simple three‑agent system (AutoGen)
 
-We’ll outline and implement a minimal, task‑decomposed system with three agents. Use the AutoGen agent chat docs for details and examples: https://microsoft.github.io/autogen/0.2/docs/Use-Cases/agent_chat
+We’ll outline and implement a minimal, task‑decomposed system with three agents.
 
-### Suggested Roles (example)
+### Roles
 - Planner: Decomposes the user goal into a concise, ordered plan of steps with acceptance criteria.
 - Implementer: Executes the steps (at first, just produces a textual draft/answer; later you can add tools).
 - Critic/Integrator: Reviews the Implementer’s output against the plan and criteria; suggests fixes or declares “done.”
 
-### Message flow (A2A turns)
+#### Message flow
 1) User (or a UserProxy) posts the initial task.
 2) Planner returns a step‑by‑step plan with success tests.
 3) Implementer produces an initial solution/draft.
 4) Critic reviews vs. the plan; if gaps exist, proposes corrections.
 5) Loop Implementer ↔ Critic until pass, then return final result to User.
 
-### Minimal architecture outline (AutoGen)
+#### Minimal architecture outline
 - Instantiate three AutoGen agents with distinct system prompts.
 - Use a group chat (or manager/orchestrator) to route messages and enforce turn‑taking.
 - Define stop conditions: e.g., Critic emits “APPROVED” or a max‑turn budget.
 - Optional challenge: add simple tools (e.g., a calculator function) and expose them via an MCP‑like schema.
 
-### Suggested acceptance criteria
+#### Suggested acceptance criteria
 - Plan includes: numbered steps, each with inputs/outputs and a testable check.
 - Implementer addresses every step.
 - Critic verifies the checks; only then returns “APPROVED.”
@@ -113,7 +98,7 @@ We’ll outline and implement a minimal, task‑decomposed system with three age
 ### Setup steps
 
 1) Environment
-	- Install AutoGen packages (most likely same as those in L1, e.g., autogen‑core, autogen‑agentchat, autogen‑ext[openai or azure]).
+	- Install AutoGen packages (same as in L1, e.g., autogen‑core, autogen‑agentchat, autogen‑ext[openai or azure]).
 	- Configure your API key(s) (Azure OpenAI for the course environment, see the Slack #labs channel for instructions if you've forgotten how).
 
 2) Define agents (system prompts) e.g.,
@@ -142,7 +127,8 @@ For API usage and examples of multi‑agent chat, see the AutoGen docs: https://
 
 Submit a single team document (PDF or Markdown) and a link to your code/notebook (if it's on GitHub make sure it's public)
 
-For this lab, outline your...
+For this lab, include your (to be filled in the notebook)...
+- Team Members: Names and Cal Poly email addresses
 - Task breakdown: A detailed, structured list of decomposed tasks.
 - Agent profiles: Roles, responsibilities, inputs/outputs, and success criteria.
 - Multi‑agent design pattern: Your choice and a brief justification.
