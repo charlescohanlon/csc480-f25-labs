@@ -39,11 +39,13 @@ point ``dictionary_path`` at a richer corpus.
 
 from __future__ import annotations
 
+import asyncio
 import heapq
+import inspect
 from dataclasses import dataclass, field
 from itertools import count
 from pathlib import Path
-from typing import Callable, Dict, Iterable, List, Optional, Sequence, Set, Tuple
+from typing import Callable, Dict, Iterable, List, Optional, Sequence, Set, Tuple, Union
 
 __all__ = ["SpellingBeeProblem", "SearchResult", "generalized_search"]
 
@@ -473,13 +475,14 @@ class SpellingBeeProblem:
 StrategyFn = Callable[[SearchNode], float]
 
 
-def generalized_search(
+async def generalized_search(
     *,
     problem: "SpellingBeeProblem",
     cost_fn: Callable[[str, str, str], float],
-    heuristic_fn: Callable[[str], float],
+    heuristic_fn: Union[Callable[[str], float], Callable[[str], asyncio.coroutine]],
     strategy: str = "a_star",
     max_expansions: Optional[int] = None,
+    verbose: bool = False,
 ) -> SearchResult:
     """Generic best-first search over ``SpellingBeeProblem`` states.
 
@@ -491,7 +494,8 @@ def generalized_search(
     cost_fn:
         Callable returning the incremental cost ``g(parent_state, action, child_state)``.
     heuristic_fn:
-        Callable returning an admissible heuristic estimate ``h(state)``.
+        Callable or async callable returning an admissible heuristic estimate ``h(state)``.
+        Can be either a synchronous function or an async function.
     strategy:
         ``"a_star"`` (default) uses ``f = g + h``.  ``"uniform_cost"`` ignores the
         heuristic and behaves like UCS.
@@ -505,10 +509,21 @@ def generalized_search(
 
     initial_state = problem.initial_state()
 
+    # Check if heuristic_fn is async
+    is_async_heuristic = inspect.iscoroutinefunction(heuristic_fn)
+
     try:
-        initial_heuristic = float(heuristic_fn(initial_state)) if strategy == "a_star" else 0.0
+        if strategy == "a_star":
+            if is_async_heuristic:
+                initial_heuristic = float(await heuristic_fn(initial_state))
+            else:
+                initial_heuristic = float(heuristic_fn(initial_state))
+        else:
+            initial_heuristic = 0.0
     except Exception as exc:  # pragma: no cover - propagate context
-        raise RuntimeError("heuristic_fn raised an exception for the initial state") from exc
+        raise RuntimeError(
+            "heuristic_fn raised an exception for the initial state"
+        ) from exc
 
     root = SearchNode(
         state=initial_state,
@@ -534,7 +549,13 @@ def generalized_search(
         _, _, node = heapq.heappop(frontier)
 
         if problem.is_goal(node.state):
-            return _build_search_result(node, success=True, expansions=expansions, explored=len(explored), frontier_size=len(frontier))
+            return _build_search_result(
+                node,
+                success=True,
+                expansions=expansions,
+                explored=len(explored),
+                frontier_size=len(frontier),
+            )
 
         if node.state in explored:
             continue
@@ -552,9 +573,24 @@ def generalized_search(
                 continue
 
             try:
-                heuristic_value = float(heuristic_fn(next_state)) if strategy == "a_star" else 0.0
+                if strategy == "a_star":
+                    if is_async_heuristic:
+                        heuristic_value = float(await heuristic_fn(next_state))
+                    else:
+                        heuristic_value = float(heuristic_fn(next_state))
+                else:
+                    heuristic_value = 0.0
             except Exception as exc:
-                raise RuntimeError(f"heuristic_fn raised an exception for state {next_state!r}") from exc
+                raise RuntimeError(
+                    f"heuristic_fn raised an exception for state {next_state!r}"
+                ) from exc
+
+            if verbose:
+                if len(next_state) > 4:
+                    print(f"Expanding: {node.state!r} + {action!r} -> {next_state!r}")
+                    print(f"  Step cost: {step_cost}")
+                    print(f"  New cost: {new_cost}")
+                    print(f"  Heuristic score: {heuristic_value}")
 
             child = SearchNode(
                 state=next_state,
